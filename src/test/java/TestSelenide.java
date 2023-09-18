@@ -15,9 +15,31 @@ public class TestSelenide {
         $("#wiki-pages-box").shouldHave(text("SoftAssertions"));
 
         $("#wiki-pages-box").$(byText("SoftAssertions")).click();
-        $(".markdown-body").shouldHave(text("@ExtendWith({SoftAssertsExtension.class}) class Tests { @Test void test() { Configuration.assertionMode = SOFT; open(\"page.html\"); $(\"#first\").should(visible).click(); $(\"#second\").should(visible).click(); }  }\n"));
+        $(".markdown-body").shouldHave(text("@ExtendWith({SoftAssertsExtension.class})\n" +
+                "class Tests {\n" +
+                "  @Test\n" +
+                "  void test() {\n" +
+                "    Configuration.assertionMode = SOFT;\n" +
+                "    open(\"page.html\");\n" +
+                "\n" +
+                "    $(\"#first\").should(visible).click();\n" +
+                "    $(\"#second\").should(visible).click();\n" +
+                "  }\n" +
+                "}"));
 
-
+        $(".markdown-body").shouldHave(text("class Tests {\n" +
+                "  @RegisterExtension \n" +
+                "  static SoftAssertsExtension softAsserts = new SoftAssertsExtension();\n" +
+                "\n" +
+                "  @Test\n" +
+                "  void test() {\n" +
+                "    Configuration.assertionMode = SOFT;\n" +
+                "    open(\"page.html\");\n" +
+                "\n" +
+                "    $(\"#first\").should(visible).click();\n" +
+                "    $(\"#second\").should(visible).click();\n" +
+                "  }\n" +
+                "}"));
     }
 
 }
